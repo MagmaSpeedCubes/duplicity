@@ -16,6 +16,7 @@ public class StageController : MonoBehaviour
 
     public StageRuntime levelRuntime;
 
+    public StageConfig startingConfiguration;
     
     public static StageController instance;
 
@@ -38,7 +39,7 @@ public class StageController : MonoBehaviour
 
     void Start()
     {
-        
+        RiskFactorController.instance.LoadStartingConfiguration(startingConfiguration);
         //StartCoroutine(BeginStageCoroutine());
     }
 
@@ -150,7 +151,7 @@ public class StageController : MonoBehaviour
 public struct StageRuntime
 {
 
-    public SerializableDictionary<RiskFactorGroup> riskFactors;
+    //public SerializableDictionary<RiskFactor, RiskFactorGroup> riskFactors;
 
     public SerializableDictionary<Activity> activities;
 
