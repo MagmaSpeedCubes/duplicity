@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c6e6d5cad49a44e1bf2ba135d3f114e, type: 3}
+  m_Name: TestPlayer
+  m_EditorClassIdentifier: Assembly-CSharp::Character
+  id: player_default
+  name: Player
+  tags:
+    items: []
+  sprites:
+    items: []
+  accessories:
+    items:
+    - key: shirt
+      value: {fileID: 11400000, guid: 9ab87f950d0634e3083000b51a901129, type: 2}
+    - key: hair
+      value: {fileID: 11400000, guid: bd2c2d427538e40378fcdafe7549c9a6, type: 2}

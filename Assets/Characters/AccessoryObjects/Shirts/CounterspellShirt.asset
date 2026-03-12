@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0bdc96c5e9904f368af4295f93f0523, type: 3}
+  m_Name: CounterspellShirt
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  id: counterspellShirt
+  name: Counterspell Shirt
+  tags:
+    items:
+    - key: scoreBoost
+      value: +0.1
+    - key: level
+      value: 1
+    - key: upgradeCost
+      value: token_500
+  sprites:
+    items:
+    - key: left-1
+      value: {fileID: 21300000, guid: 8af043209024b4c0ca7a0a04b3f294af, type: 3}
+    - key: left-2
+      value: {fileID: 21300000, guid: 23ad890ee59cd47c781aa0ef6845eef6, type: 3}
