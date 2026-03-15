@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 
 using MagmaLabs;
-public class ActivityCardController : MonoBehaviour
+public class EventCardController : MonoBehaviour
 {
     [SerializeField]private Activity activity;
 

@@ -15,20 +15,18 @@ MonoBehaviour:
   name: Hackathon
   id: hackathon
   description: 'Attend an overnight hackathon  '
-  effects:
+  acceptEffects:
     items:
-    - key: 0
-      value: 0
     - key: 1
-      value: 0
+      value: -1
     - key: 2
-      value: 0
-    - key: 3
-      value: 0
+      value: 3
     - key: 4
-      value: 0
-    - key: 5
-      value: 0
+      value: 5
+  declineEffects:
+    items:
+    - key: 4
+      value: -5
   outcomes:
     items:
     - key:
@@ -47,3 +45,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  timeRange:
+    min: 0
+    max: 0

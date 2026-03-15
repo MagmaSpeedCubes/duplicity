@@ -14,11 +14,14 @@ public class StageController : MonoBehaviour
     public UnityEvent OnStageBegin;
     public UnityEvent OnStageEnd;
 
-    public StageRuntime levelRuntime;
+    public StageRuntime stageRuntime;
 
     public StageConfig startingConfiguration;
     
     public static StageController instance;
+
+    public UnityEvent nextPhase;
+    private Coroutine phaseRoutine;
 
 
     void Awake()
@@ -26,12 +29,13 @@ public class StageController : MonoBehaviour
         if (instance != null && instance != this)
         {
             Destroy(this);
-            levelRuntime = new StageRuntime();
+            
             Debug.LogWarning("Multiple instances of StageController detected. Destroying duplicate.");
         }
         else
         {
             instance = this;
+            stageRuntime = new StageRuntime(0);
             DontDestroyOnLoad(this.gameObject);
         }
     
@@ -40,6 +44,7 @@ public class StageController : MonoBehaviour
     void Start()
     {
         RiskFactorController.instance.LoadStartingConfiguration(startingConfiguration);
+        BeginStage();
         //StartCoroutine(BeginStageCoroutine());
     }
 
@@ -52,12 +57,73 @@ public class StageController : MonoBehaviour
     //     BeginStage();
     // }
 
-    // public void BeginStage()
-    // {
+    public void BeginStage()
+    {
+        AudioManager.instance.PlayBGM("mainTheme");
+        OnStageBegin.Invoke();
+        
+    }
 
-    //     OnStageBegin.Invoke();
-    //     BeginObjective();//the level assumes there is at least one objecive
-    // }
+
+    public void RunGameLoop()
+    {
+
+        /*
+        Game loop consists of three phases
+        Phase 1: Discovery - draw any number of cards, minimum 1
+        Phase 2: Transition - accept or reject ALL cards
+        Phase 3: Lock in - choose a few items to commit extra time to for prestige tokens
+
+        Motivation for drawing cards: every card draw grants 2 prestige tokens
+        */
+
+        if (phaseRoutine != null)
+        {
+            StopCoroutine(phaseRoutine);
+        }
+        phaseRoutine = StartCoroutine(GameLoopSequence());
+    }
+
+    private IEnumerator GameLoopSequence()
+    {
+        BeginDiscoveryPhase();
+        yield return WaitForNextPhase();
+
+        BeginTransitionPhase();
+        yield return WaitForNextPhase();
+
+        BeginLockInPhase();
+        // etc...
+    }
+
+    private IEnumerator WaitForNextPhase()
+    {
+        bool fired = false;
+        UnityAction handler = () => fired = true;
+        nextPhase.AddListener(handler);
+        yield return new WaitUntil(() => fired);
+        nextPhase.RemoveListener(handler);
+    }
+
+    public void BeginDiscoveryPhase()
+    {
+        
+    }
+    public void BeginTransitionPhase()
+    {
+        
+    }
+
+        public void BeginLockInPhase()
+    {
+        
+    }
+
+
+    public void DrawCard()
+    {
+        stageRuntime.cardsToDraw++;
+    }
 
     // public void BeginObjective()
     // {
@@ -151,14 +217,30 @@ public class StageController : MonoBehaviour
 public struct StageRuntime
 {
 
+    public int prestigeTokens;
+    public int round;
+    public int tokensToAdvance;
+
+    public int cardsToDraw;
+    
+
     //public SerializableDictionary<RiskFactor, RiskFactorGroup> riskFactors;
 
     public SerializableDictionary<Activity> activities;
 
     public StageConfig config;
 
-}
+    public StageRuntime(int startingTokens)
+    {
+        prestigeTokens = startingTokens;
+        round = 1;
+        tokensToAdvance = 1;
+        cardsToDraw = 0;
+        activities = new SerializableDictionary<Activity>();
+        config = new StageConfig();
+    }
 
+}
 
 
 
