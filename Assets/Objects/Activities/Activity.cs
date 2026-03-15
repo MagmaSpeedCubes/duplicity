@@ -1,25 +1,35 @@
 using UnityEngine;
 
 using MagmaLabs;
-[CreateAssetMenu(fileName = "Activity", menuName = "Scriptable Objects/Activity")]
-public class Activity : ScriptableObject
+
+public class CardEvent : ScriptableObject
 {
     public string name, id;
+    public Sprite icon;
     public string description;
-
-    public SerializableDictionary<RiskFactor, float> acceptEffects;
-    public SerializableDictionary<RiskFactor, float> declineEffects;
-    public SerializableDictionary<Outcome, float> outcomes;
-
-    //public float timeCommitment;
-    public AnimationCurve timeRewardCurve;
-    public Range<float> timeRange;
+    public int declineTokenCost;
 }
 
-[System.Serializable]
-public struct Outcome
+[CreateAssetMenu(fileName = "Course", menuName = "Scriptable Objects/Course")]
+public class Course : CardEvent
 {
-    public string name, id;
-    public string description;
-    public SerializableDictionary<RiskFactor, float> effects;
+
+    public int acceptRecurringStressCost;
+}
+
+[CreateAssetMenu(fileName = "Extracurricular", menuName = "Scriptable Objects/Extracurricular")]
+public class Extracurricular : CardEvent
+{
+
+    public int acceptRecurringStressCost;
+    public int acceptRecurringTokenReward;
+}
+
+[CreateAssetMenu(fileName = "Event", menuName = "Scriptable Objects/Event")]
+public class Event : CardEvent
+{
+
+
+    public int acceptTokenReward, acceptStressCost;
+
 }

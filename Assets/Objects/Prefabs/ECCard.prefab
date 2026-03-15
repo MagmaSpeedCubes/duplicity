@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 5425425163264018055}
   - component: {fileID: 1137202584153681666}
   - component: {fileID: 4516847977697615201}
-  - component: {fileID: 5180172708459658067}
-  - component: {fileID: 6294345516466487911}
+  - component: {fileID: 1978842791111694312}
+  - component: {fileID: 400730363446897434}
   m_Layer: 5
-  m_Name: CourseCard
+  m_Name: ECCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,6 +35,7 @@ RectTransform:
   m_Children:
   - {fileID: 4952933480171734667}
   - {fileID: 5917647865597132532}
+  - {fileID: 140532349272186608}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -63,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.7490196, b: 1, a: 1}
+  m_Color: {r: 0.627451, g: 0.1254902, b: 0.9411765, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -92,22 +93,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.1176471, g: 0.5647059, b: 1, a: 1}
+  m_EffectColor: {r: 0.2941177, g: 0, b: 0.509804, a: 1}
   m_EffectDistance: {x: -8, y: -8}
   m_UseGraphicAlpha: 1
---- !u!225 &5180172708459658067
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526301001875109665}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!114 &6294345516466487911
+--- !u!114 &1978842791111694312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,9 +105,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 526301001875109665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e39b55ebd9b04cafb6586155b98e1fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 568de4c1eebac40e2b0f1c5902403a30, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CourseCard
+  m_EditorClassIdentifier: Assembly-CSharp::GameCard
   holdThresholdSeconds: 0.35
   bringToFrontOnDrag: 1
   onHold:
@@ -132,8 +121,19 @@ MonoBehaviour:
       m_Calls: []
   image: {fileID: 2818402180366844271}
   title: {fileID: 4208016244981931420}
-  upper: {fileID: 0}
-  data: {fileID: 0}
+  upper: {fileID: 8916188328755153892}
+--- !u!225 &400730363446897434
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526301001875109665}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1518237060745221336
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,3 +346,58 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7541521102329322459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 140532349272186608}
+  - component: {fileID: 8916188328755153892}
+  m_Layer: 5
+  m_Name: NextSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &140532349272186608
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7541521102329322459}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5022129255768780492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 150, y: 225}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8916188328755153892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7541521102329322459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ba629bc33b948d59c6123a25567b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ECCardSlot
+  onItemDropped:
+    m_PersistentCalls:
+      m_Calls: []
+  onItemRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+  locked: 0

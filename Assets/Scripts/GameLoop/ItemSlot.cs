@@ -12,7 +12,10 @@ public class ItemSlot : MonoBehaviour, IDropHandler
     public DragDropEvent onItemDropped;
     public DragDropEvent onItemRemoved;
 
+    [Header("Drop Filter")]
+
     public DragDrop CurrentItem { get; private set; }
+    public bool locked = false;
 
     private RectTransform rectTransform;
 
@@ -31,6 +34,11 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 
         var dragDrop = droppedObject.GetComponent<DragDrop>();
         if (dragDrop == null)
+        {
+            return;
+        }
+
+        if (!MeetsComponentRequirements(droppedObject))
         {
             return;
         }
@@ -57,6 +65,11 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         onItemRemoved.Invoke(item);
     }
 
+    virtual protected bool MeetsComponentRequirements(GameObject droppedObject)
+    {
+        return true;
+    }
+
     private void SnapToSlot(DragDrop item)
     {
         var itemRect = item.GetComponent<RectTransform>();
@@ -68,4 +81,6 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         // Keep current parent to avoid offset issues; snap using world position.
         itemRect.position = rectTransform.position;
     }
+
+
 }

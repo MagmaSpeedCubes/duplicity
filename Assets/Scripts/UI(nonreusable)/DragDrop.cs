@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-
+[RequireComponent(typeof(CanvasGroup))]
+[RequireComponent(typeof(RectTransform))]
 public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Serializable]
@@ -18,6 +19,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     public PointerEventDataEvent onDrop;
 
     private RectTransform rectTransform;
+    
     private CanvasGroup canvasGroup;
     private bool pointerDown;
     private bool holdFired;
@@ -32,13 +34,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
-
+        EnsureReferences();
         ResolveCanvas();
     }
 
@@ -49,6 +45,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
     private void Update()
     {
+        if (IsLockedInSlot())
+        {
+            return;
+        }
+
         if (!pointerDown || holdFired || dragging)
         {
             return;
@@ -63,6 +64,16 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (!EnsureReferences())
+        {
+            return;
+        }
+
+        if (IsLockedInSlot())
+        {
+            return;
+        }
+
         pointerDown = true;
         holdFired = false;
         dropFired = false;
@@ -83,6 +94,16 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!EnsureReferences())
+        {
+            return;
+        }
+
+        if (IsLockedInSlot())
+        {
+            return;
+        }
+
         dragging = true;
         lastPointerEvent = eventData;
         originalParent = transform.parent;
@@ -104,6 +125,16 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!EnsureReferences())
+        {
+            return;
+        }
+
+        if (IsLockedInSlot() || !dragging)
+        {
+            return;
+        }
+
         lastPointerEvent = eventData;
         onDrag.Invoke(eventData);
 
@@ -129,6 +160,18 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!EnsureReferences())
+        {
+            return;
+        }
+
+        if (IsLockedInSlot())
+        {
+            dragging = false;
+            pointerDown = false;
+            return;
+        }
+
         dragging = false;
         pointerDown = false;
         lastPointerEvent = eventData;
@@ -145,9 +188,39 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
         CurrentSlot = slot;
     }
 
+    private bool IsLockedInSlot()
+    {
+        return CurrentSlot != null && CurrentSlot.locked;
+    }
+
     private void ResolveCanvas()
     {
         var found = GetComponentInParent<Canvas>();
         canvas = found != null ? found.rootCanvas : null;
+    }
+
+    private bool EnsureReferences()
+    {
+        if (rectTransform == null)
+        {
+            rectTransform = GetComponent<RectTransform>();
+        }
+
+        if (canvasGroup == null)
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+            if (canvasGroup == null)
+            {
+                canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            }
+        }
+
+        if (rectTransform == null)
+        {
+            Debug.LogError($"{name} needs a RectTransform for DragDrop.", this);
+            return false;
+        }
+
+        return true;
     }
 }

@@ -6,22 +6,24 @@ using UnityEngine.UI;
 using TMPro;
 
 using MagmaLabs;
-public class CourseCardController : CardController
+public class EventCardController : CardController
 {
-    [SerializeField] private Course courseEvent;
+    [SerializeField] private Event courseEvent;
         protected override CardEvent CardEvent => courseEvent;
-    [SerializeField]private TextMeshProUGUI acceptRecurringStressText;
+    [SerializeField]private TextMeshProUGUI acceptStressText;
+    [SerializeField]private TextMeshProUGUI acceptTokenText;
 
     override protected void Initialize()
     {
         base.Initialize();
-        acceptRecurringStressText.text = ""+courseEvent.acceptRecurringStressCost;
+        acceptStressText.text = ""+courseEvent.acceptStressCost;
+        acceptTokenText.text = ""+courseEvent.acceptTokenReward;
 
     }
 
     public override void SetData(CardEvent data)
     {
-        var casted = data as Course;
+        var casted = data as Event;
         if (casted == null)
         {
             Debug.LogError($"{name} expected Course data.", this);

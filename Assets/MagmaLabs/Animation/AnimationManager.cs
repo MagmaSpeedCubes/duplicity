@@ -170,3 +170,11 @@ public class Animations : MonoBehaviour
 public class AnimationManager : Animations{}
 
 }
+
+public enum Animation
+{
+    None,
+    Fade,
+    Pop, 
+    Slide
+}

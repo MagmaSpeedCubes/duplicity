@@ -22,6 +22,11 @@ public class StageController : MonoBehaviour
 
     public UnityEvent nextPhase;
     private Coroutine phaseRoutine;
+    [SerializeField]private CourseCardSlot[] courseCards;
+    [SerializeField]private ECCardSlot[] ecCards;
+
+    
+
 
 
     void Awake()
@@ -61,6 +66,7 @@ public class StageController : MonoBehaviour
     {
         AudioManager.instance.PlayBGM("mainTheme");
         OnStageBegin.Invoke();
+        RunGameLoop();
         
     }
 
@@ -84,6 +90,11 @@ public class StageController : MonoBehaviour
         phaseRoutine = StartCoroutine(GameLoopSequence());
     }
 
+
+    public void AdvancePhase()
+    {
+        nextPhase.Invoke();
+    }
     private IEnumerator GameLoopSequence()
     {
         BeginDiscoveryPhase();
@@ -107,21 +118,80 @@ public class StageController : MonoBehaviour
 
     public void BeginDiscoveryPhase()
     {
-        
+        stageRuntime.phaseName = "Discovery";
+        stageRuntime.phaseNumber = 1;
+        DrawCard();
     }
     public void BeginTransitionPhase()
     {
-        
+        stageRuntime.phaseName = "Transition";
+        stageRuntime.phaseNumber = 2;
+
+        StartCoroutine(TransitionPhaseCoroutine());
     }
 
-        public void BeginLockInPhase()
+    public IEnumerator TransitionPhaseCoroutine()
     {
+        int cardsToSpawn = stageRuntime.cardsToDraw;
+        stageRuntime.cardsToDraw = 0;
+
+        for (int i = 0; i < cardsToSpawn; i++)
+        {
+            Debug.Log("Spawning card");
+            yield return GameplayUIController.instance.RevealCard();
+        }
+    }
+
+    public void BeginLockInPhase()
+    {
+
+        stageRuntime.phaseName = "Lock-In";
+        stageRuntime.phaseNumber = 3;
+
+
+        stageRuntime.currentStress = 0;
+        stageRuntime.tokensToAward = 0;
+
         
+
+        foreach(CourseCardSlot ccc in courseCards)
+        {
+            if(ccc.CurrentItem == null){continue;}
+
+            CourseCard cc = ccc.CurrentItem.gameObject.GetComponent<CourseCard>();
+            if(cc==null){continue;}
+            int stress = cc.data.acceptRecurringStressCost;
+            stageRuntime.currentStress += stress;
+            
+        }
+
+        foreach(ECCardSlot eccs in ecCards)
+        {
+            if(eccs.CurrentItem ==null){continue;}
+
+            ECCard ecc = eccs.CurrentItem.gameObject.GetComponent<ECCard>();
+            if(ecc==null){continue;}
+
+            int stress = ecc.
+            data.
+            acceptRecurringStressCost;
+
+            stageRuntime.currentStress += stress;
+
+            int tokens = ecc.data.acceptRecurringTokenReward;
+            stageRuntime.tokensToAward += tokens;
+            
+        }
+
+
+
     }
 
 
     public void DrawCard()
     {
+        if(stageRuntime.phaseNumber != 1){return;}
+        GameplayUIController.instance.DrawCardAnimation();
         stageRuntime.cardsToDraw++;
     }
 
@@ -221,12 +291,20 @@ public struct StageRuntime
     public int round;
     public int tokensToAdvance;
 
+    public int maxStress;
+    public int currentStress;
+
+    public int phaseNumber;
+    public string phaseName;
+
     public int cardsToDraw;
+    public int tokensToAward;
+    public int selectedCardsInDiscovery;
+
+    
     
 
     //public SerializableDictionary<RiskFactor, RiskFactorGroup> riskFactors;
-
-    public SerializableDictionary<Activity> activities;
 
     public StageConfig config;
 
@@ -236,13 +314,18 @@ public struct StageRuntime
         round = 1;
         tokensToAdvance = 1;
         cardsToDraw = 0;
-        activities = new SerializableDictionary<Activity>();
         config = new StageConfig();
+
+        phaseName = "Discovery";
+        phaseNumber = 1;
+
+        maxStress = 100;
+        currentStress = 0;
+        tokensToAward = 0;
+        selectedCardsInDiscovery = 0;
     }
 
 }
-
-
 
 
 
